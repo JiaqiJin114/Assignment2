@@ -2,21 +2,15 @@ package controllers;
 
 import models.*;
 
-import utils.ISerializer;
-import utils.OperatingSystemUtility;
-
-import utils.Utilities;
-
-import java.io.*;
-import java.util.*;
-
-
 
 //TODO - ensure that this class implements iSerializer
-public class TechnologyDeviceAPI {
-    //TODO - create 2 fields
+
+ //TODO - create 2 fields
 
     //TODO - create constructor
+
+
+
    //TODO - CRUD Methods
 
 
@@ -59,4 +53,4 @@ public class TechnologyDeviceAPI {
 
 
 
-}
+
