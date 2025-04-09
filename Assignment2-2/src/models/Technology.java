@@ -5,11 +5,12 @@ public class Technology {
     private Manufacturer manufacturer;
     private String id;
 
-public void Technology(String modelName, double price, Manufacturer manufacturer, String id) {
-    this.modelName = limit(modelName,10);
+
+    public void Tablet(String modelName, double price, Manufacturer manufacturer, String id) {
+    this.modelName = limit(modelName,30);
     this.price = pricelimit (price ,20);
     this.manufacturer = manufacturer;
-    this.id = id;
+    this.id = limit(id,10);
  }
     private String limit(String string, int length){
         if(string == null){
@@ -26,4 +27,45 @@ public void Technology(String modelName, double price, Manufacturer manufacturer
         }
         return Price;
     }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    @Override
+    public String toString() {
+        return "Technology{" +
+                "id='" + id + '\'' +
+                ", modelName='" + modelName + '\'' +
+                ", price=" + price +
+                ", manufacturer=" + manufacturer +
+                '}';
+    }
+
 }

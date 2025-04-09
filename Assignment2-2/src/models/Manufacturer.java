@@ -45,4 +45,6 @@ public class Manufacturer {
                 ", numEmployees=" + numEmployees + (numEmployees==1 ? " employee" : " employees")+
                 '}';
     }
+
+
 }
