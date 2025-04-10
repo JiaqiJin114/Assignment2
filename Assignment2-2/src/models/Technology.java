@@ -12,7 +12,7 @@ public class Technology {
     this.manufacturer = manufacturer;
     this.id = limit(id,10);
  }
-    private String limit(String string, int length){
+    public static String limit(String string, int length){
         if(string == null){
             return "";
         }
