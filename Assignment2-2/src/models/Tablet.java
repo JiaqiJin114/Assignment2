@@ -1,6 +1,6 @@
 package models;
 
-public class Tablet {
+public class Tablet extends ComputingDevice{
     private String modelName;
     private double price;
     private Manufacturer manufacturer;

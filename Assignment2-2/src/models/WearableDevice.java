@@ -1,8 +1,11 @@
 package models;
 
-public abstract class WearableDevice {
+public abstract class WearableDevice extends Technology{
     private String material;
     private String size;
+
+    public WearableDevice() {
+    }
 
     public WearableDevice(String material, String size)
     {

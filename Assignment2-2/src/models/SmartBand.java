@@ -1,4 +1,4 @@
 package models;
 
-public class SmartBand {
+public class SmartBand extends WearableDevice {
 }

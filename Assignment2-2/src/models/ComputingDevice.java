@@ -1,4 +1,4 @@
 package models;
 
-public class ComputingDevice {
+public abstract class ComputingDevice extends Technology {
 }

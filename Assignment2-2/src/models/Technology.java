@@ -1,5 +1,5 @@
 package models;
-public class Technology {
+public abstract class Technology {
     private String modelName = "unknow";
     private double price = 20;
     private Manufacturer manufacturer;

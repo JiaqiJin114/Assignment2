@@ -1,5 +1,5 @@
 package models;
 
-public class SmartWatch {
-    
+public class SmartWatch extends WearableDevice {
+
 }
