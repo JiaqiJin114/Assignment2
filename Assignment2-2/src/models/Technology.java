@@ -1,9 +1,9 @@
 package models;
 public abstract class Technology {
-    private String modelName = "unknow";
-    private double price = 20;
-    private Manufacturer manufacturer;
-    private String id;
+    public String modelName = "unknow";
+    public double price = 20;
+    public Manufacturer manufacturer;
+    public String id;
 
     public Technology(String modelName, double price, Manufacturer manufacturer, String id) {
         this.modelName = modelName;
@@ -29,6 +29,8 @@ public abstract class Technology {
         }
         return Price;
     }
+
+
     public String getId() {
         return id;
     }

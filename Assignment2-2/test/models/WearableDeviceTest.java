@@ -9,7 +9,7 @@ class WearableDeviceTest {
 
     @BeforeEach
     void setUp() {
-        wearableDevice = new WearableDevice(, , , "Steel", "Small");
+
     }
 
     @AfterEach
