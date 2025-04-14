@@ -4,11 +4,14 @@ public abstract class WearableDevice extends Technology{
     private String material;
     private String size;
 
-    public WearableDevice() {
+
+    public WearableDevice(String modelName, double price, Manufacturer manufacturer, String id) {
+        super(modelName, price, manufacturer, id);
     }
 
-    public WearableDevice(String material, String size)
+    public WearableDevice(String modelName, double price, Manufacturer manufacturer, String id, String material, String size)
     {
+        super(modelName, price, manufacturer, id);
         this.material = Technology.limit(material,20);
         this.size = Technology.limit(size,10);
     }
@@ -27,11 +30,16 @@ public abstract class WearableDevice extends Technology{
     public void setSize(String size) {
         this.size = size;
     }
+
     @Override
     public String toString() {
         return "WearableDevice{" +
                 "material='" + material + '\'' +
                 ", size='" + size + '\'' +
-                '}';
+                "} " + super.toString();
     }
+
+    public abstract double getInsurancePremium ();
+
+    public abstract String connectToInternet ();
 }

@@ -5,13 +5,15 @@ public abstract class Technology {
     private Manufacturer manufacturer;
     private String id;
 
+    public Technology(String modelName, double price, Manufacturer manufacturer, String id) {
+        this.modelName = modelName;
+        this.price = pricelimit(price,price);
+        this.manufacturer = manufacturer;
+        this.id = id;
+    }
 
-    public void Tablet(String modelName, double price, Manufacturer manufacturer, String id) {
-    this.modelName = limit(modelName,30);
-    this.price = pricelimit (price ,20);
-    this.manufacturer = manufacturer;
-    this.id = limit(id,10);
- }
+
+
     public static String limit(String string, int length){
         if(string == null){
             return "";

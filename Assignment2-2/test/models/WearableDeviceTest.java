@@ -4,14 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class WearableDeviceTest {
     private WearableDevice wearableDevice;
 
     @BeforeEach
     void setUp() {
-        wearableDevice = new WearableDevice("Steel", "Small");
+        wearableDevice = new WearableDevice(, , , "Steel", "Small");
     }
 
     @AfterEach
