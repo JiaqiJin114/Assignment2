@@ -6,7 +6,7 @@ public class Tablet extends ComputingDevice {
 
     public Tablet(String modelName, double price, Manufacturer manufacturer, String id, String processor, int storage, String operatingSystem) {
         super(modelName, price, manufacturer, id, processor, storage);
-        this.operatingSystem = operatingSystem;
+        this.operatingSystem = Tablet.check(operatingSystem);
     }
 
     public String getOperatingSystem() {
@@ -27,18 +27,16 @@ public class Tablet extends ComputingDevice {
     public String connectToInternet() {
         return "Connects to the internet via bluetooth”";
     }
-
     @Override
     public String toString() {
-        return "Tablet{" +
-                "operatingSystem='" + operatingSystem + '\'' +
-                ", processor='" + processor + '\'' +
-                ", storage=" + storage +
-                ", id='" + id + '\'' +
-                ", manufacturer=" + manufacturer +
-                ", modelName='" + modelName + '\'' +
-                ", price=" + price +
-                "} " + super.toString();
+        return "Processor: " + processor + ", Storage: " + storage + "GB" ;
+    }
+    public static String check(String os){
+        if(os.equals("Windows") || os.equals("Android") || os.equals("Chrome")|| os.equals("iPad")|| os.equals("Amazom Fire")){
+            return os;
+        }
+        return "Windows";
 
     }
+
 }

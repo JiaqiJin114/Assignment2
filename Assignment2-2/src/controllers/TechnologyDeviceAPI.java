@@ -242,10 +242,8 @@ public class TechnologyDeviceAPI implements ISerializer {
 
     //TODO Top 5 methods
 
-  
+
     // TODO Persistence methods
-
-
 
 
     @Override
