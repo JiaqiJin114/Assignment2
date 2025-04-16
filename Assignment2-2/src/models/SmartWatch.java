@@ -35,4 +35,6 @@ public class SmartWatch extends WearableDevice {
     public String connectToInternet() {
         return "Connects to the internet via bluetooth”";
     }
+
+
 }
