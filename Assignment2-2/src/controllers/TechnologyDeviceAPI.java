@@ -3,13 +3,11 @@ package controllers;
 import models.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import models.Manufacturer;
 import utils.ISerializer;
 
 
@@ -29,7 +27,7 @@ public class TechnologyDeviceAPI implements ISerializer {
 
 
    //TODO - CRUD Methods
-   public boolean addTechnology(Technology technology) {
+   public boolean addTechnologyDevice(Technology technology) {
        technologyList.add(technology);
        return true;
    }
@@ -134,7 +132,11 @@ public class TechnologyDeviceAPI implements ISerializer {
         return null;
     }
     //TODO - Number methods
-    public int getTabletCount() {
+
+    public int numberOfTechnologyDevices() {
+        return technologyList.size();
+    }
+    public int numberOfTablets() {
      int count = 0;
         for (int i = 0; i < technologyList.size(); i++) {
             if (technologyList.get(i) instanceof Tablet) {
@@ -143,7 +145,7 @@ public class TechnologyDeviceAPI implements ISerializer {
         }
         return count;
     }
-    public int getSmartBandCount() {
+    public int numberOfSmartBands() {
         int count = 0;
         for (int i = 0; i < technologyList.size(); i++) {
             if (technologyList.get(i) instanceof SmartBand) {
@@ -152,7 +154,7 @@ public class TechnologyDeviceAPI implements ISerializer {
         }
         return count;
     }
-    public int getSmartWatchCount() {
+    public int numberOfSmartWatch()  {
         int count = 0;
         for (int i = 0; i < technologyList.size(); i++) {
             if (technologyList.get(i) instanceof SmartWatch) {
@@ -210,12 +212,37 @@ public class TechnologyDeviceAPI implements ISerializer {
 
 
 
+    private void swapTechnology(int i, int j) {
+        Technology temp = technologyList.get(i);
+        technologyList.set(i, technologyList.get(j));
+        technologyList.set(j, temp);
+    }
+
+    public void sortByPriceAscending() {
+        for (int i = 0; i < technologyList.size() - 1; i++) {
+            for (int j = 0; j < technologyList.size() - 1 - i; j++) {
+                if (technologyList.get(j).getPrice() > technologyList.get(j + 1).getPrice()) {
+                    swapTechnology(j, j + 1);
+                }
+            }
+        }
+    }
+
+    public void sortByPriceDescending() {
+        for (int i = 0; i < technologyList.size() - 1; i++) {
+            for (int j = 0; j < technologyList.size() - 1 - i; j++) {
+                if (technologyList.get(j).getPrice() < technologyList.get(j + 1).getPrice()) {
+                    swapTechnology(j, j + 1);
+                }
+            }
+        }
+    }
 
 
 
     //TODO Top 5 methods
 
-
+  
     // TODO Persistence methods
 
 
