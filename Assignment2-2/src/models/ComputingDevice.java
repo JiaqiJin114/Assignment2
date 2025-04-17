@@ -33,10 +33,7 @@ public abstract class ComputingDevice extends Technology {
     }
     @Override
     public String toString() {
-        return "ComputingDevice{" +
-                "processor='" + processor + '\'' +
-                ", storage=" + storage +
-                "} " + super.toString();
+        return "Processor: " + processor + ", Storage: " + storage + "GB" ;
     }
     private static int storagelimit(int storage){
        if ( storage<64 && storage%8!=0){

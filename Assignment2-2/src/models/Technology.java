@@ -5,14 +5,14 @@ public abstract class Technology {
     public Manufacturer manufacturer;
     public String id;
 
+
+
     public Technology(String modelName, double price, Manufacturer manufacturer, String id) {
-        this.modelName = modelName;
+        this.modelName = Technology.limit(modelName,30);
         this.price = pricelimit(price,price);
         this.manufacturer = manufacturer;
-        this.id = id;
+        this.id = Technology.limit(id,10);
     }
-
-
 
     public static String limit(String string, int length){
         if(string == null){
@@ -24,7 +24,7 @@ public abstract class Technology {
         return string;
     }
     private  double pricelimit (double price ,double Price){
-        if(price < 0){
+        if(price < 20){
             return 20;
         }
         return Price;
@@ -32,13 +32,17 @@ public abstract class Technology {
 
 
     public String getId() {
-        return id;
+        if (id.length() < 10) {
+            return id;
+        }
+        return "unknown";
     }
-
     public void setId(String id) {
-        this.id = id;
-    }
+        if (id.length() < 10) {
+            this.id = id;
+        }
 
+    }
     public Manufacturer getManufacturer() {
         return manufacturer;
     }
@@ -52,24 +56,22 @@ public abstract class Technology {
     }
 
     public void setModelName(String modelName) {
-        this.modelName = modelName;
+        if (modelName.length() < 30) {
+            this.modelName = modelName;
+        }
     }
-
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        if (price > 20) {
+            this.price = price;
+        }
     }
     @Override
     public String toString() {
-        return "Technology{" +
-                "id='" + id + '\'' +
-                ", modelName='" + modelName + '\'' +
-                ", price=" + price +
-                ", manufacturer=" + manufacturer +
-                '}';
+        return "Model: " + modelName + ", Price: €"  + price + ", Manufacturer Details: "+ manufacturer +", ID: " + id;
     }
 
 }

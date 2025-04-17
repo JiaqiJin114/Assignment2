@@ -14,6 +14,7 @@ public class Tablet extends ComputingDevice {
     }
 
     public void setOperatingSystem(String operatingSystem) {
+        if( operatingSystem.equals("Windows") ||  operatingSystem.equals("Android") ||  operatingSystem.equals("Chrome")||  operatingSystem.equals("iPad")||  operatingSystem.equals("Amazom Fire"))
         this.operatingSystem = operatingSystem;
     }
 
@@ -29,7 +30,10 @@ public class Tablet extends ComputingDevice {
     }
     @Override
     public String toString() {
-        return "Processor: " + processor + ", Storage: " + storage + "GB" ;
+        return "Operating System: " + operatingSystem + ", Insurance Premium: €"  +getInsurancePremium() ;
+    }
+    public  abstract class getInsurancePremium {
+        double result = getPrice() * 0.01;
     }
     public static String check(String os){
         if(os.equals("Windows") || os.equals("Android") || os.equals("Chrome")|| os.equals("iPad")|| os.equals("Amazom Fire")){

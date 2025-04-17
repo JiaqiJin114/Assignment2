@@ -20,9 +20,7 @@ public class SmartWatch extends WearableDevice {
 
     @Override
     public String toString() {
-        return "SmartWatch{" +
-                "DisplayType='" + DisplayType + '\'' +
-                "} " + super.toString();
+        return "DisplayType: " +  DisplayType ;
     }
 
     @Override

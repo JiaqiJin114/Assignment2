@@ -67,9 +67,9 @@ public class TabletTest {
 
     @Test
     public void testToString() {
-        String expected = "Operating System: Android, Insurance Premium: €7.99";
+        String expected = "Operating System: Android, Insurance Premium: €7.9999";
         assertTrue(validTablet.toString().contains(expected));
-        expected = "Operating System: Windows, Insurance Premium: €0.2";
+        expected = "Operating System: Windows, Insurance Premium: €0.19";
         assertTrue(invalidTablet.toString().contains(expected));
     }
 }
