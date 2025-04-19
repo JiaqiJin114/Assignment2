@@ -8,8 +8,8 @@ public abstract class WearableDevice extends Technology{
     public WearableDevice(String modelName, double price, Manufacturer manufacturer, String id, String material, String size)
     {
         super(modelName, price, manufacturer, id);
-        this.material = Technology.limit(material,20);
-        this.size = Technology.limit(size,10);
+        this.material = limit(material,20);
+        this.size = limit(size,10);
     }
     public String getMaterial() {
         return material;
@@ -35,7 +35,4 @@ public abstract class WearableDevice extends Technology{
                 "} " + super.toString();
     }
 
-    public abstract double getInsurancePremium ();
-
-    public abstract String connectToInternet ();
 }

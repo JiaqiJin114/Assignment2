@@ -18,8 +18,8 @@ public class TechnologyDeviceAPI implements ISerializer {
 
 
 
- //TODO - create 2 fields
- public TechnologyDeviceAPI(File file) {
+    //TODO - create 2 fields
+    public TechnologyDeviceAPI(File file) {
      this.file = file;
  }
     //TODO - create constructor

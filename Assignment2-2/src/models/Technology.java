@@ -1,33 +1,30 @@
 package models;
 public abstract class Technology {
-    public String modelName = "unknow";
-    public double price = 20;
     public Manufacturer manufacturer;
-    public String id;
-
+    public String id  = "unknown";
+    public double price = 20;
+    public String modelName;
 
 
     public Technology(String modelName, double price, Manufacturer manufacturer, String id) {
-        this.modelName = Technology.limit(modelName,30);
-        this.price = pricelimit(price,price);
+        this.modelName = limit(modelName,30);
+        this.price = priceLimit(price,20);
         this.manufacturer = manufacturer;
-        this.id = Technology.limit(id,10);
+        this.id = limit(id,10);
     }
 
-    public static String limit(String string, int length){
-        if(string == null){
-            return "";
-        }
-        if(string.length() > length){
+    public String limit(String string, int length){
+        if(string.length() >= length){
             return string.substring(0,length);
         }
         return string;
     }
-    private  double pricelimit (double price ,double Price){
-        if(price < 20){
-            return 20;
+
+    private  double priceLimit (double price ,double Price){
+        if(price < Price){
+            return price;
         }
-        return Price;
+        return this.price;
     }
 
 
@@ -69,9 +66,10 @@ public abstract class Technology {
             this.price = price;
         }
     }
-    @Override
-    public String toString() {
-        return "Model: " + modelName + ", Price: €"  + price + ", Manufacturer Details: "+ manufacturer +", ID: " + id;
-    }
+
+
+    public abstract double getInsurancePremium ();
+
+    public abstract String connectToInternet ();
 
 }

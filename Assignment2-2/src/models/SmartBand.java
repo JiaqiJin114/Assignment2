@@ -26,8 +26,7 @@ public boolean heartRateMonitor;
     }
     @Override
     public double getInsurancePremium() {
-        double result = getPrice() * 0.07;
-        return result;
+        return getPrice() * 0.07;
     }
     @Override
     public String connectToInternet() {

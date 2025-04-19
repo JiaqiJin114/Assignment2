@@ -1,32 +1,31 @@
 package models;
 
 public class SmartWatch extends WearableDevice {
-    public String DisplayType;
+    public String displayType = "LCD";
 
 
     public SmartWatch(String modelName, double price, Manufacturer manufacturer, String id, String material, String size, String displayType)
     {
         super(modelName, price, manufacturer, id, material, size);
-        this.DisplayType = displayType;
+        this.displayType = displayType;
     }
 
     public String getDisplayType() {
-        return DisplayType;
+        return displayType;
     }
 
     public void setDisplayType(String displayType) {
-        DisplayType = displayType;
+        this.displayType = displayType;
     }
 
     @Override
     public String toString() {
-        return "DisplayType: " +  DisplayType ;
+        return "DisplayType: " + displayType;
     }
 
     @Override
     public double getInsurancePremium() {
-        double result = getPrice() * 0.06;
-        return result;
+        return getPrice() * 0.06;
     }
 
     @Override
