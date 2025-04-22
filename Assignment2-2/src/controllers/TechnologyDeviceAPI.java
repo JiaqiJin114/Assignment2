@@ -2,8 +2,7 @@ package controllers;
 
 import models.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -241,7 +240,102 @@ public class TechnologyDeviceAPI implements ISerializer {
 
 
     //TODO Top 5 methods
+    public List<Technology> topFiveMostExpensiveTechnology() {
+        List<Technology> sortedList = new ArrayList<>(technologyList);
+        Collections.sort(sortedList, new Comparator<Technology>() {
+            @Override
+            public int compare(Technology tech1, Technology tech2) {
+                return Double.compare(tech2.getPrice(), tech1.getPrice());
+            }
+        });
+        List<Technology> topFive = new ArrayList<>();
+        int count = 0;
+        for (Technology tech : sortedList) {
+            if (count < 5) {
+                topFive.add(tech);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topFive;
+    }
+    public List<Technology>  topFiveMostExpensiveSmartWatch() {
+        List<SmartWatch> smartWatchList = new ArrayList<>();
+        for (Technology tech : technologyList) {
+            if (tech instanceof SmartWatch) {
+                smartWatchList.add((SmartWatch) tech);
+            }
+        }  Collections.sort(smartWatchList, new Comparator<SmartWatch>() {
+            @Override
+            public int compare(SmartWatch watch1, SmartWatch watch2) {
+                return Double.compare(watch2.getPrice(), watch1.getPrice());
+            }
+        });
+        List<Technology> topFive = new ArrayList<>();
+        int count = 0;
+        for (SmartWatch watch : smartWatchList) {
+            if (count < 5) {
+                topFive.add(watch);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topFive;
+    }
 
+    public List<Technology>  topFiveMostExpensiveSmartBand(){
+        List<SmartBand> smartBandList = new ArrayList<>();
+        for (Technology tech : technologyList) {
+            if (tech instanceof SmartBand) {
+                smartBandList.add((SmartBand) tech);
+            }
+        }
+        Collections.sort(smartBandList, new Comparator<SmartBand>() {
+            @Override
+            public int compare(SmartBand band1, SmartBand band2) {
+                return Double.compare(band2.getPrice(), band1.getPrice());
+            }
+        });
+        List<Technology> topFive = new ArrayList<>();
+        int count = 0;
+        for (SmartBand band : smartBandList) {
+            if (count < 5) {
+                topFive.add(band);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topFive;
+    }
+
+    public List<Technology>  topFiveMostExpensiveTablet(){
+        List<Tablet> tabletList = new ArrayList<>();
+        for (Technology tech : technologyList) {
+            if (tech instanceof Tablet) {
+                tabletList.add((Tablet) tech);
+            }
+        }
+        Collections.sort(tabletList, new Comparator<Tablet>() {
+            @Override
+            public int compare(Tablet tablet1, Tablet tablet2) {
+                return Double.compare(tablet2.getPrice(), tablet1.getPrice());
+            }
+        });
+        List<Technology> topFive = new ArrayList<>();
+        int count = 0;
+        for (Tablet tablet : tabletList) {
+            if (count < 5) {
+                topFive.add(tablet);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topFive;
+    }
 
     // TODO Persistence methods
 
