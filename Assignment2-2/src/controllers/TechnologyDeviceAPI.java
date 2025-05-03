@@ -56,9 +56,9 @@ public class TechnologyDeviceAPI implements ISerializer {
     }
 
     public Technology getTechnologyById(String id) {
-        for (int i = 0; i < technologyList.size(); i++) {
-            if (technologyList.get(i).getId().equals(id) ){
-                return technologyList.get(i);
+        for (Technology technology : technologyList) {
+            if (technology.getId().equals(id)) {
+                return technology;
             }
         }
         return null;
@@ -103,6 +103,7 @@ public class TechnologyDeviceAPI implements ISerializer {
         }
         return "";
     }
+
     public String listAllTechnologyAbovePrice(double price) {
         for (Technology technology : technologyList) {
             if (technology.getPrice() > price) {
@@ -262,6 +263,7 @@ public class TechnologyDeviceAPI implements ISerializer {
         }
         return topFive;
     }
+
     public List<Technology>  topFiveMostExpensiveSmartWatch() {
         List<SmartWatch> smartWatchList = new ArrayList<>();
         for (Technology tech : technologyList) {

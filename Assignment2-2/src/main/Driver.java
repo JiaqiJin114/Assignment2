@@ -11,11 +11,11 @@ import java.awt.*;
 import java.io.File;
 
 public class Driver extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
+    private final CardLayout cardLayout;
+    private final JPanel mainPanel;
 
     private TechnologyDeviceAPI techAPI;
-    private ManufacturerAPI manufacturerAPI;
+    private final ManufacturerAPI manufacturerAPI;
 
     public static void main(String[] args) {
         new Driver();
@@ -59,7 +59,7 @@ public class Driver extends JFrame {
         return("""
                  -------Technology Store-------------
                 |  1) Manufacturer CRUD MENU     |
-                |  2) Technology  CRUD MENU      |
+                |  2) Technology CRUD MENU      |
                 |  3) Reports MENU               |
                 |--------------------------------|
                 |  4) Search Manufacturers       |
@@ -71,7 +71,7 @@ public class Driver extends JFrame {
                 |--------------------------------|
                 |  0) Exit                       |
                  --------------------------------
-                 ==>> 
+                 ==>>
                 """);
     }
 
@@ -85,6 +85,11 @@ public class Driver extends JFrame {
                 case 1 -> runManufacturerMenu();
                 case 2 -> techAPIMenu();
                 case 3 -> runReportsMenu();
+                case 4 -> findManufacturer();
+                case 5 -> ;
+                case 6 ->;
+                case 10 ->;
+                case 11 -> ;
                 case 0 -> exitApp();
                 default -> System.out.println("Invalid option entered" + option);
             }
@@ -103,8 +108,8 @@ public class Driver extends JFrame {
     //----------------------
     //  Manufacturer Menu Items
     //----------------------
-    private int manufacturerMenu() {
-        System.out.println("""
+    private String manufacturerMenu() {
+        return ("""
                  --------Manufacturer Menu---------
                 |  1) Add a manufacturer           |
                 |  2) Delete a manufacturer        |
@@ -114,12 +119,12 @@ public class Driver extends JFrame {
                 |  6) List by manufacturers name   |
                 |  0) Return to main menu          |
                  ----------------------------------
+                 ==>>
                 """);
-        return ScannerInput.readNextInt("==>>");
     }
 
     private void runManufacturerMenu() {
-        int option = manufacturerMenu();
+        int option = ScannerInput.readNextInt(manufacturerMenu());
         while (option != 0) {
             switch (option) {
                 case 1 -> addManufacturer();
@@ -132,7 +137,7 @@ public class Driver extends JFrame {
                 default -> System.out.println("Invalid option entered" + option);
             }
             ScannerInput.readNextLine("\n Press the enter key to continue");
-            option = manufacturerMenu();
+            option = ScannerInput.readNextInt(manufacturerMenu());
         }
     }
 
@@ -184,56 +189,31 @@ public class Driver extends JFrame {
     //---------------------
     //  Tech Store Menu
     //---------------------
-    private int techAPIMenu() {
-        System.out.println(""" 
+    private String techAPIMenu() {
+        return(""" 
                  -----Technology Store Menu----- 
                 | 1) Add a Tech Device           |
                 | 2) Delete a Tech Device        |
                 | 3) List all Tech Devices       |
                 | 4) Update Tech Device          |
                 | 0) Return to main menu         |
-                 ----------------------------""");
-        return ScannerInput.readNextInt("==>>");
+                 --------------------------------
+                 ==>>""");
     }
-
-    public void runReportsMenu() {
-        int option = reportsMenu();
-        while (option != 0) {
-            switch (option) {
-                case 1 -> runManufacturerReports();
-                case 2 -> System.out.println("TODO - case 2");
-                case 0 -> runMainMenu();
-                default -> System.out.println("Invalid option entered" + option);
-            }
-            ScannerInput.readNextLine("\n Press the enter key to continue");
-            option = reportsMenu();
-        }
-    }
-
-    private int reportsMenu() {
-        System.out.println(""" 
-                 --------Reports Menu ---------
-                | 1) Manufacturers Overview    |
-                | 2) Technology Overview       |
-                | 0) Return to main menu       |
-                  -----------------------------
-                """);
-        return ScannerInput.readNextInt("==>>");
-    }
-
-    private int manufacturerReportsMenu() {
+    
+    private String manufacturerReportsMenu() {
         System.out.println(""" 
                  ---------- Manufacturers Reports Menu  -------------
                 | 1) List Manufacturers                              |
                 | 2) List Manufacturers from a given manufacturer    |
                 | 3) List Manufacturers by a given name              |
                 | 0) Return to main menu                             | 
-                  ---------------------------------------------------  """);
-        return ScannerInput.readNextInt("==>>");
+                  ---------------------------------------------------  
+                  ==>>""");
     }
 
     public void runManufacturerReports() {
-        int option = manufacturerReportsMenu();
+        int option = ScannerInput.readNextInt(manufacturerReportsMenu());
         while (option != 0) {
             switch (option) {
                 case 1 -> System.out.println(manufacturerAPI.listManufacturers());
@@ -242,8 +222,85 @@ public class Driver extends JFrame {
                 default -> System.out.println("Invalid option entered" + option);
             }
             ScannerInput.readNextLine("\n Press the enter key to continue");
-            option = manufacturerReportsMenu();
+            option = ScannerInput.readNextInt(manufacturerReportsMenu());
         }
+    }
+
+    private String reportsMenu() {
+        return (""" 
+                 --------Reports Menu ---------
+                | 1) Manufacturers Overview    |
+                | 2) Technology Overview       |
+                | 0) Return to main menu       |
+                  -----------------------------
+                  ==>>
+                """);
+    }
+
+    public void runReportsMenu() {
+        int option = ScannerInput.readNextInt(reportsMenu());
+        while (option != 0) {
+            switch (option) {
+                case 1 -> runManufacturerReports();
+                case 2 -> runTechnologyReports();
+                case 0 -> runMainMenu();
+                default -> System.out.println("Invalid option entered" + option);
+            }
+            ScannerInput.readNextLine("\n Press the enter key to continue");
+            option = ScannerInput.readNextInt(reportsMenu());
+        }
+    }
+
+    private String technologyReports(){
+        return """
+                ----------- Technology Reports Menu -----------
+                | 1) List all technology                         |
+                | 2) List all SmartBands                         |
+                | 3) List all Smart watch                        |
+                | 4) List all Tablets                            |
+                | 5) List all devices above a price              |
+                | 6) List all devices below a price              |
+                | 7) List all tablets by operating system        |
+                | 8) List the top five most expensive smart watches |
+                | 0) Return to main menu                         |
+                -------------------------------------------------
+                ==>>
+                """;
+    }
+
+    private void runTechnologyReports() {
+        int option = ScannerInput.readNextInt(technologyReports());
+        while (option != 0) {
+            switch (option) {
+                case 1 -> techAPI.listAllTechnologyDevices();
+                case 2 -> techAPI.listAllSmartBands();
+                case 3 -> techAPI.listAllSmartWatches();
+                case 4 -> techAPI.listAllTablets();
+                case 5 -> listAllTechnologyAbovePrice();
+                case 6 -> listAllTechnologyBelowPrice();
+                case 7 -> listAllTabletsByOperatingSystem();
+                case 8 -> techAPI.topFiveMostExpensiveSmartWatch();
+                case 0 -> runMainMenu();
+                default -> System.out.println("Invalid option entered" + option);
+            }
+            ScannerInput.readNextLine("\n Press the enter key to continue");
+            option = ScannerInput.readNextInt(technologyReports());
+        }
+    }
+
+    private void listAllTechnologyAbovePrice() {
+        int price = ScannerInput.readNextInt("Enter the price : ");
+        System.out.println(techAPI.listAllTechnologyAbovePrice(price));
+    }
+
+    private void listAllTechnologyBelowPrice() {
+        int price = ScannerInput.readNextInt("Enter the price : ");
+        System.out.println(techAPI.listAllTechnologyBelowPrice(price));
+    }
+
+    private void listAllTabletsByOperatingSystem() {
+        String operatingSystem = ScannerInput.readNextLine("Enter the operating system please : ");
+        System.out.println(techAPI.listAllTabletsByOperatingSystem(operatingSystem));
     }
 
     //todo update methods counting methods
@@ -266,7 +323,14 @@ public class Driver extends JFrame {
 
     private JPanel createMainPage() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 1)); // 修改：调整布局以适应更多按钮
+        panel.setLayout(new GridLayout(12, 1));
+
+        JTextArea menuArea = new JTextArea(mainMenu());
+        menuArea.setEditable(false);
+        menuArea.setLineWrap(true);
+        menuArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(menuArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton manufacturerCRUDButton = new JButton("Manufacturer CRUD MENU");
         manufacturerCRUDButton.addActionListener(e -> cardLayout.show(mainPanel, "Manufacturer CRUD MENU"));
@@ -300,12 +364,23 @@ public class Driver extends JFrame {
         loadAllButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Load all feature not implemented yet."));
         panel.add(loadAllButton);
 
+        JButton displayButton = new JButton("Display devices");
+        displayButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "No device now"));
+        panel.add(displayButton);
+
         return panel;
     }
 
     private JPanel createManufacturerCRUDPage() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 1)); // 修改：调整布局以适应更多按钮
+        panel.setLayout(new GridLayout(7, 1));
+
+        JTextArea menuArea = new JTextArea(manufacturerMenu());
+        menuArea.setEditable(false);
+        menuArea.setLineWrap(true);
+        menuArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(menuArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton addButton = new JButton("Add Manufacturer");
         addButton.addActionListener(e -> addManufacturer());
@@ -340,7 +415,7 @@ public class Driver extends JFrame {
 
     private JPanel createTechnologyCRUDPage() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 1)); // 修改：调整布局以适应更多按钮
+        panel.setLayout(new GridLayout(5, 1));
 
         JButton addButton = new JButton("Add Technology Device");
         addButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Add Technology Device feature not implemented yet."));
@@ -367,7 +442,7 @@ public class Driver extends JFrame {
 
     private JPanel createReportsPage() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1)); // 修改：调整布局以适应更多按钮
+        panel.setLayout(new GridLayout(4, 1));
 
         JButton manufacturersOverviewButton = new JButton("Manufacturers Overview");
         manufacturersOverviewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manufacturers Overview feature not implemented yet."));
