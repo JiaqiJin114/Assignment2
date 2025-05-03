@@ -4,7 +4,6 @@ public abstract class WearableDevice extends Technology{
     private String material;
     private String size;
 
-
     public WearableDevice(String modelName, double price, Manufacturer manufacturer, String id, String material, String size)
     {
         super(modelName, price, manufacturer, id);
@@ -34,5 +33,4 @@ public abstract class WearableDevice extends Technology{
                 ", size='" + size + '\'' +
                 "} " + super.toString();
     }
-
 }

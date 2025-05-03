@@ -25,7 +25,7 @@ public class Tablet extends ComputingDevice {
 
     @Override
     public String connectToInternet() {
-        return "Connects to the internet via bluetooth”";
+        return "Connects to the internet via Wi-Fi";
     }
 
     private static String check(String os) {

@@ -20,18 +20,18 @@ public class SmartWatch extends WearableDevice {
 
     @Override
     public String toString() {
-        return "DisplayType: " + displayType;
+        return "DisplayType: " + displayType +
+                 super.toString();
     }
 
     @Override
-    public double getInsurancePremium() {
+    public double getInsurancePremium(){
         return getPrice() * 0.06;
     }
 
     @Override
     public String connectToInternet() {
-        return "Connects to the internet via bluetooth”";
+        return "Connects to the internet via bluetooth";
     }
-
-
+    
 }

@@ -20,7 +20,7 @@ public abstract class Technology {
         return string;
     }
 
-    private  double priceLimit (double price ,double Price){
+    private double priceLimit(double price ,double Price){
         if(price < Price){
             return price;
         }
@@ -28,27 +28,28 @@ public abstract class Technology {
     }
 
 
-    public String getId() {
+    public String getId(){
         if (id.length() < 10) {
             return id;
         }
         return "unknown";
     }
-    public void setId(String id) {
+
+    public void setId(String id){
         if (id.length() < 10) {
             this.id = id;
         }
 
     }
-    public Manufacturer getManufacturer() {
+    public Manufacturer getManufacturer(){
         return manufacturer;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
+    public void setManufacturer(Manufacturer manufacturer){
         this.manufacturer = manufacturer;
     }
 
-    public String getModelName() {
+    public String getModelName(){
         return modelName;
     }
 
@@ -66,10 +67,9 @@ public abstract class Technology {
             this.price = price;
         }
     }
+    
+    public abstract double getInsurancePremium();
 
-
-    public abstract double getInsurancePremium ();
-
-    public abstract String connectToInternet ();
+    public abstract String connectToInternet();
 
 }

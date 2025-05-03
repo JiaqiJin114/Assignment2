@@ -37,7 +37,7 @@ public class TechnologyDeviceAPI implements ISerializer {
         }
         return null;
     }
-    public boolean deletTechnologyById(String id) {
+    public boolean deleteTechnologyById(String id) {
         for (int i = 0; i < technologyList.size(); i++) {
             if (technologyList.get(i).getId().equals(id) ){
                 technologyList.remove(i);
@@ -77,9 +77,9 @@ public class TechnologyDeviceAPI implements ISerializer {
     }
 
     public String listAllSmartBands() {
-        for (int i = 0; i < technologyList.size() ; i++) {
-            if (technologyList.get(i) instanceof SmartBand) {
-                return technologyList.get(i).toString();
+        for (Technology technology : technologyList) {
+            if (technology instanceof SmartBand) {
+                return technology.toString();
             }
 
         }
@@ -87,76 +87,80 @@ public class TechnologyDeviceAPI implements ISerializer {
     }
 
     public String listAllSmartWatches() {
-        for (int i = 0; i < technologyList.size() ; i++) {
-            if (technologyList.get(i) instanceof SmartWatch) {
-                return technologyList.get(i).toString();
+        for (Technology technology : technologyList) {
+            if (technology instanceof SmartWatch) {
+                return technology.toString();
             }
         }
         return "";
     }
 
     public String listAllTablets() {
-        for (int i = 0; i < technologyList.size() ; i++) {
-            if (technologyList.get(i) instanceof Tablet) {
-                return technologyList.get(i).toString();
+        for (Technology technology : technologyList) {
+            if (technology instanceof Tablet) {
+                return technology.toString();
             }
         }
         return "";
     }
     public String listAllTechnologyAbovePrice(double price) {
-        for (int i = 0; i < technologyList.size(); i++) {
-            if (technologyList.get(i).getPrice() > price) {
-                return technologyList.get(i).toString();
+        for (Technology technology : technologyList) {
+            if (technology.getPrice() > price) {
+                return technology.toString();
             }
-        } return "No technology more expensive than " + price;
+        }
+        return "No technology more expensive than " + price;
     }
 
     public String listAllTechnologyBelowPrice(double price) {
-        for (int i = 0; i <technologyList.size() ; i++) {
-            if (technologyList.get(i).getPrice() < price) {
-                return technologyList.get(i).toString();
+        for (Technology technology : technologyList) {
+            if (technology.getPrice() < price) {
+                return technology.toString();
             }
-        } return "No technology more cheap than " + price;
-    
+        }
+        return "No technology more cheap than " + price;
     }
+
     public String listAllTabletsByOperatingSystem(String os) {
-        for (int i = 0; i <technologyList.size(); i++) {
+        for (Technology technology : technologyList) {
             Scanner sc = new Scanner(System.in);
             String result = sc.next();
-            if (technologyList.get(i) instanceof Tablet && ((Tablet) technologyList.get(i)).getOperatingSystem()== result) {
-                return technologyList.get(i).toString();
+            if (technology instanceof Tablet && ((Tablet) technology).getOperatingSystem() == result) {
+                return technology.toString();
             }
 
         }
         return null;
     }
-    //TODO - Number methods
 
+    //TODO - Number methods
     public int numberOfTechnologyDevices() {
         return technologyList.size();
     }
+
     public int numberOfTablets() {
      int count = 0;
-        for (int i = 0; i < technologyList.size(); i++) {
-            if (technologyList.get(i) instanceof Tablet) {
-               count++;
+        for (Technology technology : technologyList) {
+            if (technology instanceof Tablet) {
+                count++;
             }
         }
         return count;
     }
     public int numberOfSmartBands() {
         int count = 0;
-        for (int i = 0; i < technologyList.size(); i++) {
-            if (technologyList.get(i) instanceof SmartBand) {
+        for (Technology technology : technologyList) {
+            if (technology instanceof SmartBand) {
                 count++;
             }
         }
         return count;
     }
+
     public int numberOfSmartWatch()  {
         int count = 0;
-        for (int i = 0; i < technologyList.size(); i++) {
-            if (technologyList.get(i) instanceof SmartWatch) {
+        for (Technology technology : technologyList) {
+            if (technology instanceof SmartWatch) {
                 count++;
             }
         }
@@ -236,8 +240,6 @@ public class TechnologyDeviceAPI implements ISerializer {
             }
         }
     }
-
-
 
     //TODO Top 5 methods
     public List<Technology> topFiveMostExpensiveTechnology() {
@@ -338,12 +340,11 @@ public class TechnologyDeviceAPI implements ISerializer {
     }
 
     // TODO Persistence methods
-
-
     @Override
     public String fileName() {
         return String.valueOf(file);
     }
+
     @Override
     public void save() throws Exception {
         var xstream = new XStream(new DomDriver());
@@ -351,12 +352,13 @@ public class TechnologyDeviceAPI implements ISerializer {
         os.writeObject(technologyList);
         os.close();
     }
+
     @Override
     public void load() throws Exception {
         //list of classes that you wish to include in the serialisation, separated by a comma
             Class<?>[] classes = new Class[]{ Technology.class};
 
-        //setting up the xstream object with default security and the above classes
+        //setting up the Xstream object with default security and the above classes
         XStream xstream = new XStream(new DomDriver());
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypes(classes);
