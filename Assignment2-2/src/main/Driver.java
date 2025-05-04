@@ -9,13 +9,14 @@ import utils.ScannerInput;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.Scanner;
 
 public class Driver extends JFrame {
-    private final CardLayout cardLayout;
-    private final JPanel mainPanel;
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
 
     private TechnologyDeviceAPI techAPI;
-    private final ManufacturerAPI manufacturerAPI;
+    private ManufacturerAPI manufacturerAPI;
 
     public static void main(String[] args) {
         new Driver();
@@ -34,13 +35,13 @@ public class Driver extends JFrame {
         JPanel mainPage = createMainPage();
         mainPanel.add(mainPage, "MainPage");
 
-        JPanel manufacturerCRUDPage = createManufacturerCRUDPage(); // 修改：创建制造商CRUD页面
+        JPanel manufacturerCRUDPage = createManufacturerCRUDPage();
         mainPanel.add(manufacturerCRUDPage, "Manufacturer CRUD MENU");
 
-        JPanel technologyCRUDPage = createTechnologyCRUDPage(); // 修改：创建技术设备CRUD页面
+        JPanel technologyCRUDPage = createTechnologyCRUDPage();
         mainPanel.add(technologyCRUDPage, "Technology CRUD MENU");
 
-        JPanel reportsPage = createReportsPage(); // 修改：创建报告页面
+        JPanel reportsPage = createReportsPage();
         mainPanel.add(reportsPage, "Reports MENU");
 
         add(mainPanel);
@@ -83,14 +84,13 @@ public class Driver extends JFrame {
             switch (option) {
                 //TODO - Add options
                 case 1 -> runManufacturerMenu();
-                case 2 -> techAPIMenu();
+                case 2 -> runTechAPIMenu();
                 case 3 -> runReportsMenu();
                 case 4 -> findManufacturer();
-                case 5 -> ;
-                case 6 ->;
-                case 10 ->;
-                case 11 -> ;
-                case 0 -> exitApp();
+                case 5 -> findTechDevice();
+                case 6 -> runSortTechDevice();
+                case 10 -> save();
+                case 11 -> load();
                 default -> System.out.println("Invalid option entered" + option);
             }
             ScannerInput.readNextLine("\n Press the enter key to continue");
@@ -98,6 +98,8 @@ public class Driver extends JFrame {
         }
         exitApp();
     }
+
+
 
     private void exitApp() {
         //TODO - save all the data entered
@@ -133,12 +135,12 @@ public class Driver extends JFrame {
                 case 4 -> System.out.println(manufacturerAPI.listManufacturers());
                 case 5 -> findManufacturer();
                 case 6 -> listByManufacturerName();
-                case 0 -> runMainMenu();
                 default -> System.out.println("Invalid option entered" + option);
             }
             ScannerInput.readNextLine("\n Press the enter key to continue");
             option = ScannerInput.readNextInt(manufacturerMenu());
         }
+        runMainMenu();
     }
 
     private void addManufacturer() {
@@ -171,27 +173,12 @@ public class Driver extends JFrame {
         } else
             System.out.println("Manufacturer name is NOT valid");
     }
-
-    private void findManufacturer() {
-        Manufacturer developer = getManufacturerByName();
-        if (developer == null) {
-            System.out.println("No such manufacturer exists");
-        } else {
-            System.out.println(developer);
-        }
-    }
-
-    private void listByManufacturerName() {
-        String manufacturer = ScannerInput.readNextLine("Enter the manufacturer's name:  ");
-        System.out.println(manufacturerAPI.listAllByManufacturerName(manufacturer));
-    }
-
     //---------------------
     //  Tech Store Menu
     //---------------------
     private String techAPIMenu() {
         return(""" 
-                 -----Technology Store Menu----- 
+                |-----Technology Store Menu----- |
                 | 1) Add a Tech Device           |
                 | 2) Delete a Tech Device        |
                 | 3) List all Tech Devices       |
@@ -200,14 +187,120 @@ public class Driver extends JFrame {
                  --------------------------------
                  ==>>""");
     }
-    
+
+    private void runTechAPIMenu() {
+        int option = ScannerInput.readNextInt(techAPIMenu());
+        while (option != 0) {
+            switch (option) {
+                case 1 -> addTechnologyDevice();
+                case 2 -> deleteTechnologyDevice();
+                case 3 -> techAPI.listAllTechnologyDevices();
+                case 4 -> updateTechDevice();
+                default -> System.out.println("Invalid option entered" + option);
+            }
+            ScannerInput.readNextLine("\n Press the enter key to continue");
+            option = ScannerInput.readNextInt(reportsMenu());
+        }
+        runMainMenu();
+    }
+
+    private void addTechnologyDevice() {
+        Manufacturer manufacturer = new Manufacturer(ScannerInput.readNextLine("Please enter the manufacturer's name : "), ScannerInput.readNextInt("Please enter the manufacturer's number : "));
+        String id = ScannerInput.readNextLine("Please enter the technology's id : ");
+        double price = ScannerInput.readNextDouble("Please enter the technology's price : ");
+        String modelName = ScannerInput.readNextLine("Please enter the technology's model name : ");
+        Technology technology = new Technology(modelName, price, manufacturer, id) {
+            @Override
+            public double getInsurancePremium() {
+                return 0;
+            }
+
+            @Override
+            public String connectToInternet() {
+                return "";
+            }
+        };
+        techAPI.addTechnologyDevice(technology);
+    }
+
+    private void deleteTechnologyDevice() {
+        String option = ScannerInput.readNextLine("By id or index? : ");
+        if(option.equalsIgnoreCase("id")){
+            String id = ScannerInput.readNextLine("Please enter the id : ");
+            if (techAPI.deleteTechnologyById(id)){
+                System.out.println("Delete successful");
+            }else System.out.println("Delete unsuccessful");
+        } else if (option.equalsIgnoreCase("index")) {
+            int index = ScannerInput.readNextInt("Please enter the index : ");
+            techAPI.deleteTechnologyByIndex(index);
+        }
+    }
+
+    private void updateTechDevice() {
+        String choice = ScannerInput.readNextLine("What would you like to update? : ");
+        if(choice.equalsIgnoreCase("tablet")){
+            techAPI.listAllTablets();
+            String id = ScannerInput.readNextLine("Enter the id : ");
+            String modelName = ScannerInput.readNextLine("Enter the new model name : ");
+            double price = ScannerInput.readNextDouble("Enter the new price : ");
+            String manufacturerName = ScannerInput.readNextLine("Enter the new manufacturer name");
+            int numEmployees = ScannerInput.readNextInt("Enter the new numEmployees : ");
+            Manufacturer manufacturer = new Manufacturer(manufacturerName, numEmployees);
+            String newId = ScannerInput.readNextLine("Enter the new id : ");
+            String processor = ScannerInput.readNextLine("Enter the new processor");
+            int storage = ScannerInput.readNextInt("Enter the new storage : ");
+            String operatingSystem = ScannerInput.readNextLine("Enter the new operating system : ");
+            Tablet tablet = new Tablet(modelName, price, manufacturer, newId, processor, storage, operatingSystem);
+            techAPI.updateTablet(newId, tablet);
+        } else if (choice.equalsIgnoreCase("SmartBand")) {
+            techAPI.listAllSmartBands();
+            String id = ScannerInput.readNextLine("Enter the id : ");
+            String modelName = ScannerInput.readNextLine("Enter the new model name : ");
+            double price = ScannerInput.readNextDouble("Enter the new price : ");
+            String manufacturerName = ScannerInput.readNextLine("Enter the new manufacturer name");
+            int numEmployees = ScannerInput.readNextInt("Enter the new numEmployees : ");
+            Manufacturer manufacturer = new Manufacturer(manufacturerName, numEmployees);
+            String newId = ScannerInput.readNextLine("Enter the new id : ");
+            String material = ScannerInput.readNextLine("Enter the new material : ");
+            String size = ScannerInput.readNextLine("Enter the new size : ");
+            boolean heartMonitor = false;
+            String option = ScannerInput.readNextLine("Enter is it has a heart monitor(yes/no) : ");
+            if(option.equalsIgnoreCase("yes")){
+                heartMonitor = true;
+            } else{
+                heartMonitor = false;
+            }
+            SmartBand smartBand = new SmartBand(modelName, price, manufacturer, newId, material,size, heartMonitor);
+            techAPI.updateSmartBand(id, smartBand);
+
+        } else if (choice.equalsIgnoreCase("SmartWatch")) {
+            techAPI.listAllSmartWatches();
+            String id = ScannerInput.readNextLine("Enter the id : ");
+            String modelName = ScannerInput.readNextLine("Enter the new model name : ");
+            double price = ScannerInput.readNextDouble("Enter the new price : ");
+            String manufacturerName = ScannerInput.readNextLine("Enter the new manufacturer name");
+            int numEmployees = ScannerInput.readNextInt("Enter the new numEmployees : ");
+            Manufacturer manufacturer = new Manufacturer(manufacturerName, numEmployees);
+            String newId = ScannerInput.readNextLine("Enter the new id : ");
+            String material = ScannerInput.readNextLine("Enter the new material : ");
+            String size = ScannerInput.readNextLine("Enter the new size : ");
+            String displayType = ScannerInput.readNextLine("Enter the new display type : ");
+            SmartWatch smartWatch = new SmartWatch(modelName, price, manufacturer, newId, material, size, displayType);
+            techAPI.updateSmartWatch(id, smartWatch);
+        }else{
+            System.out.println("Wrong input");
+            updateTechDevice();
+        }
+    }
+
+
     private String manufacturerReportsMenu() {
-        System.out.println(""" 
+        return(""" 
                  ---------- Manufacturers Reports Menu  -------------
                 | 1) List Manufacturers                              |
                 | 2) List Manufacturers from a given manufacturer    |
                 | 3) List Manufacturers by a given name              |
-                | 0) Return to main menu                             | 
+                | 0) Return to main menu                             |
                   ---------------------------------------------------  
                   ==>>""");
     }
@@ -217,13 +310,25 @@ public class Driver extends JFrame {
         while (option != 0) {
             switch (option) {
                 case 1 -> System.out.println(manufacturerAPI.listManufacturers());
-                case 2 -> System.out.println("todo - Case 2");
-                case 3 -> System.out.println("todo - Case 3");
+                case 2 -> System.out.println(listAllByManufacturer());
+                case 3 -> System.out.println(listAllByManufacturerName());
                 default -> System.out.println("Invalid option entered" + option);
             }
             ScannerInput.readNextLine("\n Press the enter key to continue");
             option = ScannerInput.readNextInt(manufacturerReportsMenu());
         }
+    }
+
+    private String listAllByManufacturer() {
+        String name = ScannerInput.readNextLine("Please enter the manufacturers' names : ");
+        int number = ScannerInput.readNextInt("Please enter the manufacturers' numbers : ");
+        Manufacturer manufacturer = new Manufacturer(name, number);
+        return manufacturerAPI.listAllByManufacturer(manufacturer);
+    }
+
+    private String listAllByManufacturerName() {
+        String name = ScannerInput.readNextLine("Please enter the manufacturers' names : ");
+        return manufacturerAPI.listAllByManufacturerName(name);
     }
 
     private String reportsMenu() {
@@ -303,6 +408,84 @@ public class Driver extends JFrame {
         System.out.println(techAPI.listAllTabletsByOperatingSystem(operatingSystem));
     }
 
+    private void findManufacturer() {
+        Manufacturer developer = getManufacturerByName();
+        if (developer == null) {
+            System.out.println("No such manufacturer exists");
+        } else {
+            System.out.println(developer);
+        }
+    }
+
+    private void listByManufacturerName() {
+        String manufacturer = ScannerInput.readNextLine("Enter the manufacturer's name:  ");
+        System.out.println(manufacturerAPI.listAllByManufacturerName(manufacturer));
+    }
+
+    private void findTechDevice() {
+        Technology developer = techAPI.getTechnologyById(ScannerInput.readNextLine("Enter the id : "));
+        if (developer == null) {
+            System.out.println("No such technology exists");
+        } else {
+            System.out.println(developer);
+        }
+
+    }
+
+    private String sortTechDevice(){
+        return ("""
+                 ----------- Technology Reports Menu -----------
+                | 1) sort by price ascending                        |
+                | 2) sort by price descending                       |
+                | 3) top five most expensive SmartBands             |
+                | 4) top five most expensive Tablets                |
+                | 5) top five most expensive Smartwatches           |
+                | 6) top five most expensive Technologies           |
+                -------------------------------------------------
+                ==>>
+                """);
+    }
+
+    private void runSortTechDevice() {
+        int option = ScannerInput.readNextInt(sortTechDevice());
+        switch (option){
+            case 1 -> techAPI.sortByPriceAscending();
+            case 2 -> techAPI.sortByPriceDescending();
+            case 3 -> techAPI.topFiveMostExpensiveSmartBand();
+            case 4 -> techAPI.topFiveMostExpensiveTablet();
+            case 5 -> techAPI.topFiveMostExpensiveSmartWatch();
+            case 6 -> techAPI.topFiveMostExpensiveTechnology();
+            default -> System.out.println("Invalid option entered" + option);
+        }
+        ScannerInput.readNextLine("\n Press the enter key to continue");
+        option = ScannerInput.readNextInt(technologyReports());
+    }
+
+
+    private void save() {
+        if (techAPI != null) {
+            try {
+                techAPI.save();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("techAPI is not initialized.");
+        }
+    }
+
+    private void load() {
+        if (techAPI != null) {
+            try {
+                techAPI.load();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("techAPI is not initialized.");
+        }
+    }
+
     //todo update methods counting methods
     //---------------------
     //  General Menu Items
@@ -345,23 +528,23 @@ public class Driver extends JFrame {
         panel.add(reportsButton);
 
         JButton searchManufacturersButton = new JButton("Search Manufacturers");
-        searchManufacturersButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Search Manufacturers feature not implemented yet."));
+        searchManufacturersButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Search Manufacturers feature not implemented yet. Please look at controller below."));
         panel.add(searchManufacturersButton);
 
         JButton searchTechnologyDevicesButton = new JButton("Search Technology Devices");
-        searchTechnologyDevicesButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Search Technology Devices feature not implemented yet."));
+        searchTechnologyDevicesButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Search Technology Devices feature not implemented yet. Please look at controller below."));
         panel.add(searchTechnologyDevicesButton);
 
         JButton sortTechnologyDevicesButton = new JButton("Sort Technology Devices");
-        sortTechnologyDevicesButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Sort Technology Devices feature not implemented yet."));
+        sortTechnologyDevicesButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Sort Technology Devices feature not implemented yet. Please look at controller below."));
         panel.add(sortTechnologyDevicesButton);
 
         JButton saveAllButton = new JButton("Save all");
-        saveAllButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Save all feature not implemented yet."));
+        saveAllButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Save all feature not implemented yet. Please look at controller below."));
         panel.add(saveAllButton);
 
         JButton loadAllButton = new JButton("Load all");
-        loadAllButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Load all feature not implemented yet."));
+        loadAllButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Load all feature not implemented yet. Please look at controller below."));
         panel.add(loadAllButton);
 
         JButton displayButton = new JButton("Display devices");
@@ -417,20 +600,27 @@ public class Driver extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
 
+        JTextArea menuArea = new JTextArea(manufacturerMenu());
+        menuArea.setEditable(false);
+        menuArea.setLineWrap(true);
+        menuArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(menuArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
         JButton addButton = new JButton("Add Technology Device");
-        addButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Add Technology Device feature not implemented yet."));
+        addButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Add Technology Device feature not implemented yet. Please look at controller below."));
         panel.add(addButton);
 
         JButton deleteButton = new JButton("Delete Technology Device");
-        deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Technology Device feature not implemented yet."));
+        deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Technology Device feature not implemented yet. Please look at controller below."));
         panel.add(deleteButton);
 
         JButton listButton = new JButton("List All Technology Devices");
-        listButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "List All Technology Devices feature not implemented yet."));
+        listButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "List All Technology Devices feature not implemented yet. Please look at controller below."));
         panel.add(listButton);
 
         JButton updateButton = new JButton("Update Technology Device");
-        updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Technology Device feature not implemented yet."));
+        updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Technology Device feature not implemented yet. Please look at controller below."));
         panel.add(updateButton);
 
         JButton returnButton = new JButton("Return to Main Menu");
@@ -444,12 +634,19 @@ public class Driver extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1));
 
+        JTextArea menuArea = new JTextArea(manufacturerMenu());
+        menuArea.setEditable(false);
+        menuArea.setLineWrap(true);
+        menuArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(menuArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
         JButton manufacturersOverviewButton = new JButton("Manufacturers Overview");
-        manufacturersOverviewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manufacturers Overview feature not implemented yet."));
+        manufacturersOverviewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manufacturers Overview feature not implemented yet. Please look at controller below."));
         panel.add(manufacturersOverviewButton);
 
         JButton technologyOverviewButton = new JButton("Technology Overview");
-        technologyOverviewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Technology Overview feature not implemented yet."));
+        technologyOverviewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Technology Overview feature not implemented yet. Please look at controller below."));
         panel.add(technologyOverviewButton);
 
         JButton returnButton = new JButton("Return to Main Menu");

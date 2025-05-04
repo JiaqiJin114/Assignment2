@@ -80,6 +80,21 @@ public class ManufacturerAPI  implements ISerializer {
         }
         else return "There are no manufacturers in the list.";
     }
+    public String listAllByManufacturer(Manufacturer Manufacturer){
+        if (!manufacturers.isEmpty()) {
+            String listManufacturers = "";
+            for (int i = 0; i < manufacturers.size(); i ++) {
+                if (manufacturers.get(i).getManufacturerName().equalsIgnoreCase(Manufacturer.getManufacturerName()) && manufacturers.get(i).getNumEmployees() == Manufacturer.getNumEmployees())
+                    listManufacturers += manufacturers.indexOf(Manufacturer) + ": " + Manufacturer + "\n";
+            }
+            if (listManufacturers.equals("")) {
+                return "No manufacturers of that name";
+            } else {
+                return listManufacturers;
+            }
+        }
+        else return "There are no manufacturers in the list.";
+    }
     //---------------------
     // Update methods
     //---------------------
